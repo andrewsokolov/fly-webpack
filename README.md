@@ -12,6 +12,8 @@
 [![][travis-badge]][travis-link]
 [![][mit-badge]][mit]
 
+Under development!
+
 ## Usage
 > Check out the [documentation](PLUGIN_DOCUMENTATION) to see the available options.
 

@@ -8,7 +8,7 @@
   "files": [
     "index.js"
   ],
-  "keywords":[
+  "keywords": [
     "fly",
     "fly-plugin",
     "webpack"
@@ -27,7 +27,7 @@
     "url": "http://github.com/andrewsokolov"
   },
   "dependencies": {
-
+    "webpack": "^1.10.5"
   },
   "devDependencies": {
     "eslint": "^0.21.2",

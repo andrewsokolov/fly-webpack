@@ -10,5 +10,5 @@
   "ecmaFeatures": {
     "arrowFunctions": true,
     "blockBindings": true
-  },
+  }
 }
