@@ -1,0 +1,14 @@
+{
+  "name": "fly-webpack",
+  "version": "0.0.1",
+  "description": "Webpack plugin for Fly",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": {
+    "name": "Andrew Sokolov",
+    "email": "andrewsokolov@me.com"
+  },
+  "license": "MIT"
+}
