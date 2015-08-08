@@ -1,6 +1,6 @@
 {
   "name": "fly-webpack",
-  "version": "0.0.0",
+  "version": "0.0.3",
   "description": "Webpack plugin for Fly.",
   "license": "MIT",
   "repository": "https://github.com/andrewsokolov/fly-webpack",
@@ -27,6 +27,8 @@
     "url": "http://github.com/andrewsokolov"
   },
   "dependencies": {
+    "bluebird": "^2.9.34",
+    "chalk": "^1.1.0",
     "webpack": "^1.10.5"
   },
   "devDependencies": {
