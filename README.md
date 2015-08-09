@@ -4,7 +4,7 @@
   </a>
 </div>
 
-> [Webpack](webpack.github.io) plugin for _[Fly][fly]_.
+> [Webpack](http://webpack.github.io/) plugin for _[Fly][fly]_.
 
 [![][fly-badge]][fly]
 [![npm package][npm-ver-link]][releases]
