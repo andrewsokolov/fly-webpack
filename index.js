@@ -1,4 +1,3 @@
-import Promise from 'bluebird';
 import webpack from 'webpack';
 import path from 'path';
 import chalk from 'chalk';
@@ -24,7 +23,7 @@ export default function () {
 
   this.webpack = function(opts, wp){
 
-    return new Promise((resolve, reject) => {
+    return this.defer((value, cb) => {
 
       if (!opts.output.path){
         reject('output.path not defined in Webpack config');
@@ -49,11 +48,9 @@ export default function () {
         }
 
         this.log(stats.toString(statsOptions));
-      }
+      };
 
-      let entries = {};
-
-      return this.unwrap((files) => {
+      this.unwrap((files) => {
 
          try {
 
@@ -76,34 +73,32 @@ export default function () {
            let compiler = _webpack(opts, (err, stats) => {
              if (!opts.watch) {
                if (err){
-                 reject(err);
+                 cb(err);
                } else {
                  done(stats);
-                 resolve();
+                 cb(null, chalk.bold.green('webpack is done'));
                }
              }
            });
 
            if (opts.watch) {
              compiler = compiler.compiler;
-             this.log('webpack is watching for changes');
+             this.log(chalk.underline.cyan('webpack is watching for changes'));
            }
 
            if (opts.progress) {
              compiler.apply(new ProgressPlugin((percentage, msg) => {
                percentage = Math.floor(percentage * 100);
                msg = percentage + '% ' + msg;
-               if (percentage < 10) msg = ' ' + msg;
-               this.log('webpack', msg);
+               if (percentage < 10) {
+                 msg = ' ' + msg;
+               }
+               this.log(chalk.bold.yellow('webpack ' + msg));
              }));
            }
 
            compiler.plugin('done', (stats) => {
-
-             if (opts.watch) {
-
-               if (opts.quiet) return;
-
+             if (opts.watch && !opts.quiet) {
                done(stats);
              }
            });
@@ -112,6 +107,6 @@ export default function () {
            reject(e);
          }
       });
-    });
+    })();
   };
 }
