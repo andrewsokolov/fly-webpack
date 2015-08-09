@@ -12,8 +12,6 @@
 [![][travis-badge]][travis-link]
 [![][mit-badge]][mit]
 
-Under development!
-
 ## Usage
 > Check out the [documentation](http://webpack.github.io/docs/configuration.html) to see the available options.
 
