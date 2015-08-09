@@ -21,19 +21,18 @@ export default function () {
     errorDetails: false
   };
 
-  this.webpack = function(opts, wp){
+  this.webpack = function(opts, wp, customCb = () => {}){
 
     return this.defer((value, cb) => {
 
-      if (!opts.output.path){
-        reject('output.path not defined in Webpack config');
-      }
-
-      if (!opts.output.filename){
-        opts.output.filename = "[name].entry.js";
-      }
+      opts.output.path = opts.output.path || process.cwd();
+      opts.output.filename = opts.output.filename || '[hash].js';
 
       const done = (stats) => {
+
+        if (opts.quiet){
+          return;
+        }
 
         let statsOptions = opts.stats || {};
 
@@ -58,6 +57,10 @@ export default function () {
 
            if (!opts.entry){
 
+             if (!files.length){
+               cb('source file not found');
+             }
+
              let entries = {};
 
              files.forEach((file) => {
@@ -79,6 +82,7 @@ export default function () {
                  cb(null, chalk.bold.green('webpack is done'));
                }
              }
+             customCb(err, stats);
            });
 
            if (opts.watch) {
@@ -98,13 +102,13 @@ export default function () {
            }
 
            compiler.plugin('done', (stats) => {
-             if (opts.watch && !opts.quiet) {
+             if (opts.watch) {
                done(stats);
              }
            });
 
-         } catch (e) {
-           reject(e);
+         } catch (err) {
+           cb(err);
          }
       });
     })();
