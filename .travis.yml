@@ -3,5 +3,3 @@ node_js:
   - "iojs"
 
 script: "npm run test-ci"
-after_success:
-  coveralls
