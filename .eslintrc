@@ -1,8 +1,16 @@
 {
+  "ecmaFeatures": {
+    "es6": true,
+    "modules": true,
+    "arrowFunctions": true,
+    "blockBindings": true
+  },
   "env": {
-    "node": true
+    "node": true,
+    "es6": true
   },
   "rules": {
+    "semi": 1,
     "camelcase": 0,
     "quotes": 0,
     "no-undef": 0,
@@ -24,11 +32,5 @@
     "curly": 1,
     "no-use-before-define": 1,
     "no-shadow": 1
-  },
-  "ecmaFeatures": {
-    "es6": true,
-    "modules": true,
-    "arrowFunctions": true,
-    "blockBindings": true
   }
 }
