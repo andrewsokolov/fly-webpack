@@ -6,8 +6,10 @@
 
 ## Changelog
 
- * 0.0.0
+### v1.0.5
 
-### v0.0.0
+ * added tests.
+
+### v1.0.3
 
  * fly-webpack initial commit.
