@@ -17,7 +17,6 @@
     "lint": "eslint *.js",
     "setup": "npm i && npm test",
     "test": "npm run lint && node -r babel/register ./node_modules/tape/bin/tape test/*.js | tspec",
-    "build": "echo No build task specified.",
     "deploy": "npm run test && git push origin master && npm publish",
     "test-ci": "npm test"
   },
