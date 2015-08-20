@@ -2,6 +2,8 @@ import webpack from 'webpack';
 import path from 'path';
 import chalk from 'chalk';
 import ProgressPlugin from 'webpack/lib/ProgressPlugin';
+import _ from 'lodash';
+import MemoryFileSystem from "memory-fs";
 
 export default function () {
 
@@ -21,11 +23,12 @@ export default function () {
     errorDetails: false
   };
 
-  this.webpack = function(opts, wp, customCb = () => {}){
+  this.webpack = function(opts = {}, wp = false, customCb = () => {}){
 
     return this.defer((value, cb) => {
 
-      opts.output.path = opts.output.path || process.cwd();
+      opts.output = opts.output || {}
+      opts.output.path = opts.output && opts.output.path || process.cwd();
       opts.output.filename = opts.output.filename || '[hash].js';
 
       const done = (stats) => {
@@ -55,10 +58,10 @@ export default function () {
 
            let _webpack = wp || webpack;
 
-           if (!opts.entry){
+           if (!opts.entry) {
 
-             if (!files.length){
-               cb('source file not found');
+             if (!files.length) {
+               cb(new Error('source file not found'));
              }
 
              let entries = {};
@@ -73,10 +76,16 @@ export default function () {
 
            }
 
-           let compiler = _webpack(opts, (err, stats) => {
+           let _opts = _.cloneDeep(opts);
+
+           if (opts.debug) {
+             _opts.watch = false;
+           }
+
+           let compiler = _webpack(_opts, (err, stats) => {
              if (!opts.watch) {
-               if (err){
-                 cb(err);
+               if (err || stats.compilation.errors.length) {
+                 cb(err || stats.compilation.errors[0]);
                } else {
                  done(stats);
                  cb(null, chalk.bold.green('webpack is done'));
@@ -85,27 +94,36 @@ export default function () {
              customCb(err, stats);
            });
 
+           if (opts.debug) {
+             // hide output in dev mode
+             compiler.outputFileSystem = new MemoryFileSystem();
+           }
+
            if (opts.watch) {
              compiler = compiler.compiler;
              this.log(chalk.underline.cyan('webpack is watching for changes'));
            }
 
-           if (opts.progress) {
-             compiler.apply(new ProgressPlugin((percentage, msg) => {
-               percentage = Math.floor(percentage * 100);
-               msg = percentage + '% ' + msg;
-               if (percentage < 10) {
-                 msg = ' ' + msg;
-               }
-               this.log(chalk.bold.yellow('webpack ' + msg));
-             }));
-           }
+           if (!opts.debug) {
 
-           compiler.plugin('done', (stats) => {
-             if (opts.watch) {
-               done(stats);
+             if (opts.progress && !opts.debug) {
+               compiler.apply(new ProgressPlugin((percentage, msg) => {
+                 percentage = Math.floor(percentage * 100);
+                 msg = percentage + '% ' + msg;
+                 if (percentage < 10) {
+                   msg = ' ' + msg;
+                 }
+                 this.log(chalk.bold.yellow('webpack ' + msg));
+               }));
              }
-           });
+
+             compiler.plugin('done', (stats) => {
+               if (opts.watch) {
+                 done(stats);
+               }
+             });
+
+           }
 
          } catch (err) {
            cb(err);
