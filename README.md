@@ -112,6 +112,7 @@ export default function* () {
 ```
 
 ## Release History
+* 1.0.6 - Added support for node@0.11
 * 1.0.5 - Added tests
 * 1.0.3 - Initial release
 
