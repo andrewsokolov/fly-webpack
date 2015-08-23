@@ -151,7 +151,6 @@ exports['default'] = function () {
               }));
             }
 
-
             compiler.plugin('done', function (stats) {
               if (opts.watch) {
                 done(stats);
