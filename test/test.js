@@ -1,6 +1,6 @@
 import { test } from "tape";
 import { bind, defer } from 'fly-util';
-import plugin from '../';
+import plugin from '../dist';
 import path from 'path';
 import _ from 'lodash';
 import 'tape-chai';

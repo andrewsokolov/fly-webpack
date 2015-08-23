@@ -27,7 +27,7 @@ export default function () {
 
     return this.defer((value, cb) => {
 
-      opts.output = opts.output || {}
+      opts.output = opts.output || {};
       opts.output.path = opts.output && opts.output.path || process.cwd();
       opts.output.filename = opts.output.filename || '[hash].js';
 
