@@ -88,75 +88,99 @@ exports['default'] = function () {
       _this.unwrap(function (files) {
 
         try {
+          (function () {
 
-          var _webpack = wp || _webpack3['default'];
+            var _webpack = wp || _webpack3['default'];
 
-          if (!opts.entry) {
-            (function () {
+            if (!opts.entry) {
+              (function () {
 
-              if (!files.length) {
-                cb(new Error('source file not found'));
-              }
-
-              var entries = {};
-
-              files.forEach(function (file) {
-                var name = _path2['default'].basename(file, _path2['default'].extname(file));
-                entries[name] = [];
-                entries[name].push(_path2['default'].join(process.cwd(), file));
-              });
-
-              opts.entry = entries;
-            })();
-          }
-
-          var _opts = _lodash2['default'].cloneDeep(opts);
-
-          if (opts.debug) {
-            _opts.watch = false;
-          }
-
-          var compiler = _webpack(_opts, function (err, stats) {
-            if (!opts.watch) {
-              if (err || stats.compilation.errors.length) {
-                cb(err || stats.compilation.errors[0]);
-              } else {
-                done(stats);
-                cb(null, _chalk2['default'].bold.green('webpack is done'));
-              }
-            }
-            customCb(err, stats);
-          });
-
-          if (opts.debug) {
-            // hide output in dev mode
-            compiler.outputFileSystem = new _memoryFs2['default']();
-          }
-
-          if (opts.watch) {
-            compiler = compiler.compiler;
-            _this.log(_chalk2['default'].underline.cyan('webpack is watching for changes'));
-          }
-
-          if (!opts.debug) {
-
-            if (opts.progress && !opts.debug) {
-              compiler.apply(new _webpackLibProgressPlugin2['default'](function (percentage, msg) {
-                percentage = Math.floor(percentage * 100);
-                msg = percentage + '% ' + msg;
-                if (percentage < 10) {
-                  msg = ' ' + msg;
+                if (!files.length) {
+                  cb(new Error('source file not found'));
                 }
-                _this.log(_chalk2['default'].bold.yellow('webpack ' + msg));
-              }));
+
+                var entries = {};
+
+                files.forEach(function (file) {
+                  var name = _path2['default'].basename(file, _path2['default'].extname(file));
+                  entries[name] = [];
+                  entries[name].push(_path2['default'].join(process.cwd(), file));
+                });
+
+                opts.entry = entries;
+              })();
             }
 
-            compiler.plugin('done', function (stats) {
-              if (opts.watch) {
-                done(stats);
+            if (opts.debug) {
+              _this.emit('fly_wp_entry_setup', opts.entry);
+            }
+
+            var _opts = _lodash2['default'].cloneDeep(opts);
+
+            if (opts.debug) {
+              _opts.watch = false;
+            }
+
+            var compiler = _webpack(_opts, function (err, stats) {
+              if (!opts.watch) {
+                if (err || stats.compilation.errors.length) {
+                  cb(err || stats.compilation.errors[0]);
+                } else {
+                  done(stats);
+                  cb(null, _chalk2['default'].bold.green('webpack is done'));
+                }
               }
+              customCb(err, stats);
             });
-          }
+
+            if (opts.debug) {
+              (function () {
+                // hide output in dev mode
+                var fs = compiler.outputFileSystem = new _memoryFs2['default']();
+                compiler.plugin('after-emit', function (compilation, callback) {
+                  var output = {};
+                  _Object$keys(compilation.assets).forEach(function (outname) {
+                    if (compilation.assets[outname].emitted) {
+                      var file_path = fs.join(compiler.outputPath, outname);
+                      if (file_path.indexOf('?') !== -1) {
+                        file_path = file_path.split('?')[0];
+                      }
+                      output[outname] = file_path;
+                    }
+                  });
+                  _this.emit('fly_wp_output', output);
+                  callback();
+                });
+              })();
+            }
+
+            if (opts.watch) {
+              if (!opts.debug) {
+                compiler = compiler.compiler;
+              }
+              _this.log(_chalk2['default'].underline.cyan('webpack is watching for changes'));
+            }
+
+            if (!opts.debug) {
+
+              if (opts.progress && !opts.debug) {
+                compiler.apply(new _webpackLibProgressPlugin2['default'](function (percentage, msg) {
+                  percentage = Math.floor(percentage * 100);
+                  msg = percentage + '% ' + msg;
+                  if (percentage < 10) {
+                    msg = ' ' + msg;
+                  }
+                  _this.log(_chalk2['default'].bold.yellow('webpack ' + msg));
+                }));
+              }
+
+              compiler.plugin('done', function (stats) {
+                if (opts.watch) {
+                  done(stats);
+                }
+              });
+            }
+          })();
         } catch (err) {
           cb(err);
         }

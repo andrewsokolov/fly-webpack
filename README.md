@@ -33,11 +33,11 @@ export default function* () {
         output: {
             path: 'public'
         }
-    };
+    }
 
     yield this
         .source("src/main.js")
-        .webpack(webpackConfig);
+        .webpack(webpackConfig)
 }
 ```
 
@@ -47,19 +47,19 @@ Or just pass in your `webpack.config.js`:
 export default function* () {
     yield this
         .source("src/main.js")
-        .webpack( require('./webpack.config.js') );
+        .webpack( require('./webpack.config.js') )
 }
 ```
 If you would like to use a different version of webpack than the one this plugin uses, pass in an optional 2nd argument:
 
 ```js
 
-import webpack from 'webpack';
+import webpack from 'webpack'
 
 export default function* () {
     yield this
         .source("src/main.js")
-        .webpack( require('./webpack.config.js'),  webpack);
+        .webpack( require('./webpack.config.js'),  webpack)
 }
 ```
 
@@ -73,7 +73,7 @@ export default function* () {
           /* config */
         }, null, (err, stats) => {
           /* Use stats to do more things if needed */
-        });
+        })
 }
 ```
 
@@ -93,7 +93,7 @@ export default function* () {
                    output: {
                        filename: '[name].js',
                    }
-               });
+               })
 }
 ```
 
@@ -107,13 +107,14 @@ export default function* () {
                    output: {
                        filename: '[name].js',
                    }
-               });
+               })
 }
 ```
 
 ## Release History
-* 1.0.6 - Added support for node@0.11
-* 1.0.5 - Added tests
+* 1.0.8 - Add more tests
+* 1.0.6 - Add support for node@0.11
+* 1.0.5 - Add tests
 * 1.0.3 - Initial release
 
 # License
