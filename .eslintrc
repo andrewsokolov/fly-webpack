@@ -10,7 +10,7 @@
     "es6": true
   },
   "rules": {
-    "semi": 1,
+    "semi": [2, "never"],
     "camelcase": 0,
     "quotes": 0,
     "no-undef": 0,

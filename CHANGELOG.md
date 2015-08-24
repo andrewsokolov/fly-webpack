@@ -6,13 +6,17 @@
 
 ## Changelog
 
+### v1.0.8
+
+ * add more tests
+
 ### v1.0.6
 
- * added support for node@0.11
+ * add support for node@0.11
 
 ### v1.0.5
 
- * added tests.
+ * add tests.
 
 ### v1.0.3
 
