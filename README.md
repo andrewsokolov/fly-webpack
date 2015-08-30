@@ -112,6 +112,7 @@ export default function* () {
 ```
 
 ## Release History
+* 1.0.9 - Update fly to 0.8.2
 * 1.0.8 - Add more tests
 * 1.0.6 - Add support for node@0.11
 * 1.0.5 - Add tests

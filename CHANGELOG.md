@@ -6,6 +6,10 @@
 
 ## Changelog
 
+### v1.0.9
+
+ * Update fly to 0.8.2
+
 ### v1.0.8
 
  * add more tests
