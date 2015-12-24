@@ -117,6 +117,10 @@ exports['default'] = function () {
 
             var _opts = _lodash2['default'].cloneDeep(opts);
 
+            if (opts.plugins) {
+              _opts.plugins = opts.plugins;
+            }
+
             if (opts.debug) {
               _opts.watch = false;
             }
