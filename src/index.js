@@ -82,6 +82,10 @@ export default function () {
 
            let _opts = _.cloneDeep(opts)
 
+           if (opts.plugins) {
+               _opts.plugins = opts.plugins
+           }
+
            if (opts.debug) {
              _opts.watch = false
            }
