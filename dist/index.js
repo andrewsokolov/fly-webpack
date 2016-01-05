@@ -16,6 +16,10 @@ var _path = require('path');
 
 var _path2 = _interopRequireDefault(_path);
 
+var _fs = require("fs");
+
+var _fs2 = _interopRequireDefault(_fs);
+
 var _chalk = require('chalk');
 
 var _chalk2 = _interopRequireDefault(_chalk);
@@ -102,6 +106,9 @@ exports['default'] = function () {
                 var entries = {};
 
                 files.forEach(function (file) {
+                  if (_fs2['default'].lstatSync(file).isDirectory()) {
+                    return;
+                  }
                   var name = _path2['default'].basename(file, _path2['default'].extname(file));
                   entries[name] = [];
                   entries[name].push(_path2['default'].join(process.cwd(), file));
