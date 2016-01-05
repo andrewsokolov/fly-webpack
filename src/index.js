@@ -1,5 +1,6 @@
 import webpack from 'webpack'
 import path from 'path'
+import FileSystem from "fs"
 import chalk from 'chalk'
 import ProgressPlugin from 'webpack/lib/ProgressPlugin'
 import _ from 'lodash'
@@ -67,6 +68,9 @@ export default function () {
              let entries = {}
 
              files.forEach((file) => {
+               if (FileSystem.existsSync(file) && FileSystem.lstatSync(file).isDirectory()) {
+                 return
+               }
                let name = path.basename(file, path.extname(file))
                entries[name] = []
                entries[name].push(path.join(process.cwd(), file))
