@@ -106,7 +106,7 @@ exports['default'] = function () {
                 var entries = {};
 
                 files.forEach(function (file) {
-                  if (_fs2['default'].lstatSync(file).isDirectory()) {
+                  if (_fs2['default'].existsSync(file) && _fs2['default'].lstatSync(file).isDirectory()) {
                     return;
                   }
                   var name = _path2['default'].basename(file, _path2['default'].extname(file));

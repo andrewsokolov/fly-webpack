@@ -68,7 +68,7 @@ export default function () {
              let entries = {}
 
              files.forEach((file) => {
-               if (FileSystem.lstatSync(file).isDirectory()) {
+               if (FileSystem.existsSync(file) && FileSystem.lstatSync(file).isDirectory()) {
                  return
                }
                let name = path.basename(file, path.extname(file))
